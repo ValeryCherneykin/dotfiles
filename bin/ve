@@ -1,0 +1,3 @@
+#!/bin/bash
+# ve - opens neovim in current directory
+nvim .

@@ -1,0 +1,60 @@
+# Swap / backup files
+*.swp
+*.swo
+*.bak
+*.tmp
+*.old
+*.un~
+
+# Session files
+*.session
+
+# Neovim
+.netrwhist
+.viminfo
+shada/*
+shada_*
+.lsp
+lsp_log.txt
+
+# Plugin manager directories
+site/*
+pack/*
+plugin/*
+plugged/*
+lazy/*
+
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Shell history
+.zsh_history
+.bash_history
+
+# Archives
+*.tar.gz
+*.zip
+*.xz
+*.dmg
+
+# Tmux
+.tmux/*
+*.tmux
+
+# Docker
+*.docker
+.docker/
+docker-compose.override.yml
+docker-compose.yml
+**/Dockerfile*
+**/docker-compose.yml
+docker-compose.*
+
+# Logs
+*.log
