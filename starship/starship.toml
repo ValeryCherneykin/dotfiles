@@ -1,0 +1,58 @@
+format = """
+$directory$git_branch$git_status$fill$cmd_duration$line_break$character"""
+
+[fill]
+symbol = " "
+
+[character]
+success_symbol = "[❯](bold fg=#7fb4ca)"
+error_symbol = "[❯](bold fg=#c34043)"
+vicmd_symbol = "[❮](bold fg=#6a9589)"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold fg=#c0a36e"
+read_only = "  "
+read_only_style = "fg=#c34043"
+format = "[ $path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+symbol = " "
+style = "fg=#957fb8"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "fg=#c5c9c5"
+format = '([$all_status$ahead_behind]($style))'
+ahead = "[⇡${count}](fg=#76946a)"
+behind = "[⇣${count}](fg=#c34043)"
+diverged = "[⇕⇡${ahead_count}⇣${behind_count}](fg=#c0a36e)"
+conflicted = "[=${count}](fg=#c34043)"
+untracked = "[?${count}](fg=#a6a69c)"
+stashed = "[\\$${count}](fg=#a6a69c)"
+modified = "[~${count}](fg=#c0a36e)"
+staged = "[+${count}](fg=#76946a)"
+renamed = "[»${count}](fg=#7e9cd8)"
+deleted = "[✘${count}](fg=#c34043)"
+
+[cmd_duration]
+min_time = 2000
+format = "[ $duration](fg=#6a9589) "
+
+[package]
+disabled = true
+[nodejs]
+disabled = true
+[python]
+disabled = true
+[ruby]
+disabled = true
+[rust]
+disabled = true
+[golang]
+disabled = true
+[docker_context]
+disabled = true
+[aws]
+disabled = true

@@ -1,21 +1,18 @@
 #!/bin/bash
-# Dotfiles installer for Arch Linux
-# Usage: ./install.sh
-
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-info()  { echo -e "\033[1;36m==>\033[0m $1"; }
-ok()    { echo -e "\033[1;32m  ✓\033[0m $1"; }
-warn()  { echo -e "\033[1;33m  !\033[0m $1"; }
+info() { echo -e "\033[1;36m==>\033[0m $1"; }
+ok() { echo -e "\033[1;32m ✓\033[0m $1"; }
+warn() { echo -e "\033[1;33m !\033[0m $1"; }
 
 if ! command -v pacman &>/dev/null; then
-    echo "This installer is for Arch Linux only (pacman not found)."
+    echo "This installer is for Arch Linux only."
     exit 1
 fi
 
-# Pull in submodules (e.g. nvim config) if this is a git checkout that forgot --recurse-submodules
+# Pull submodules
 if [[ -f "$DOTFILES_DIR/.gitmodules" ]] && command -v git &>/dev/null; then
     git -C "$DOTFILES_DIR" submodule update --init --recursive 2>/dev/null || true
 fi
@@ -26,28 +23,20 @@ fi
 info "Installing packages"
 
 PACKAGES=(
-    zsh
-    tmux
-    wezterm
-    neovim
-    git
-    base-devel
-    fzf
-    fd
-    ripgrep
-    bat
-    eza
-    zoxide
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    fastfetch
-    btop
-    cmatrix
-    wl-clipboard
-    # LSP servers used by nvim/lua/plugins/lsp.lua (no Mason, system binaries)
-    gopls
-    lua-language-server
-    go
+    # Shell & Terminal
+    zsh tmux wezterm starship
+    # Editor & Tools
+    neovim git base-devel fzf fd ripgrep bat eza zoxide
+    zsh-autosuggestions zsh-syntax-highlighting fastfetch btop
+    # Hyprland ecosystem
+    hyprland waybar wofi mako wl-clipboard
+    xdg-desktop-portal-hyprland polkit-kde-agent
+    qt5-wayland qt6-wayland
+    grim slurp hyprshot
+    # Fonts
+    ttf-jetbrains-mono-nerd noto-fonts-emoji
+    # Dev
+    gopls lua-language-server go
 )
 
 sudo pacman -S --needed --noconfirm "${PACKAGES[@]}"
@@ -70,9 +59,13 @@ link() {
     ok "$dst -> $src"
 }
 
-link "$DOTFILES_DIR/zsh/.zshrc"           "$HOME/.zshrc"
-link "$DOTFILES_DIR/tmux/.tmux.conf"      "$HOME/.tmux.conf"
+link "$DOTFILES_DIR/zsh/.zshrc"       "$HOME/.zshrc"
+link "$DOTFILES_DIR/tmux/.tmux.conf"  "$HOME/.tmux.conf"
 link "$DOTFILES_DIR/wezterm/.wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
+link "$DOTFILES_DIR/hypr/hyprland.conf"   "$HOME/.config/hypr/hyprland.conf"
+link "$DOTFILES_DIR/waybar/config"        "$HOME/.config/waybar/config"
+link "$DOTFILES_DIR/waybar/style.css"     "$HOME/.config/waybar/style.css"
+link "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 
 if [[ -d "$DOTFILES_DIR/nvim" && -n "$(ls -A "$DOTFILES_DIR/nvim" 2>/dev/null)" ]]; then
     link "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
@@ -87,6 +80,7 @@ info "Linking scripts"
 
 mkdir -p "$HOME/.local/bin"
 for script in "$DOTFILES_DIR"/bin/*; do
+    [[ -f "$script" ]] || continue
     name="$(basename "$script")"
     chmod +x "$script"
     ln -sfn "$script" "$HOME/.local/bin/$name"
@@ -104,4 +98,5 @@ if [[ "$SHELL" != *zsh* ]]; then
     ok "Default shell changed to zsh (takes effect next login)"
 fi
 
-info "Done. Restart your terminal or run: exec zsh"
+info "Done! Run: exec zsh"
+info "To start Hyprland: log out to TTY (Ctrl+Alt+F3) and run: Hyprland"

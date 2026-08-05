@@ -174,3 +174,5 @@ autoload -U select-word-style
 select-word-style bash
 
 [[ ! -d ~/.zsh/cache ]] && mkdir -p ~/.zsh/cache
+
+eval "$(starship init zsh)"
