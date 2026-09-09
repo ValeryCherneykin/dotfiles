@@ -24,15 +24,10 @@ info "Installing packages"
 
 PACKAGES=(
     # Shell & Terminal
-    zsh tmux wezterm starship
+    zsh tmux wezterm
     # Editor & Tools
     neovim git base-devel fzf fd ripgrep bat eza zoxide
     zsh-autosuggestions zsh-syntax-highlighting fastfetch btop
-    # Hyprland ecosystem
-    hyprland waybar wofi mako wl-clipboard
-    xdg-desktop-portal-hyprland polkit-kde-agent
-    qt5-wayland qt6-wayland
-    grim slurp hyprshot
     # Fonts
     ttf-jetbrains-mono-nerd noto-fonts-emoji
     # Dev
@@ -59,13 +54,9 @@ link() {
     ok "$dst -> $src"
 }
 
-link "$DOTFILES_DIR/zsh/.zshrc"       "$HOME/.zshrc"
+link "$DOTFILES_DIR/zsh/.zshrc"        "$HOME/.zshrc"
 link "$DOTFILES_DIR/tmux/.tmux.conf"  "$HOME/.tmux.conf"
 link "$DOTFILES_DIR/wezterm/.wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
-link "$DOTFILES_DIR/hypr/hyprland.conf"   "$HOME/.config/hypr/hyprland.conf"
-link "$DOTFILES_DIR/waybar/config"        "$HOME/.config/waybar/config"
-link "$DOTFILES_DIR/waybar/style.css"     "$HOME/.config/waybar/style.css"
-link "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 
 if [[ -d "$DOTFILES_DIR/nvim" && -n "$(ls -A "$DOTFILES_DIR/nvim" 2>/dev/null)" ]]; then
     link "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
@@ -99,4 +90,3 @@ if [[ "$SHELL" != *zsh* ]]; then
 fi
 
 info "Done! Run: exec zsh"
-info "To start Hyprland: log out to TTY (Ctrl+Alt+F3) and run: Hyprland"
